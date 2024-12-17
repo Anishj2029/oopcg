@@ -1,0 +1,152 @@
+//Develop a program in C++ to create a database of student’s information system containing the 
+// following information: Name, Roll number, Class, Division, Date of Birth, Blood group, Contact 
+// address, Telephone number, Driving license no. and other. Construct the database with 
+// suitable member functions. Make use of constructor, default constructor, copy constructor, 
+// destructor, static member functions, friend class, this pointer, inline code and dynamic 
+// memory allocation operators-new and delete as well as exception handling.
+
+
+#include<iostream>
+
+using namespace std;
+
+class student{
+    public:
+    string name;
+    int rollno;
+    string cls;
+    char division;
+    string dob;
+    string bloodgroup;
+    string contact;
+    string address;
+    string Telephone;
+    string drivingl;
+    static int count;  // using static funtion
+    
+    // defalt constructor
+    student(){
+        name = "Unkonown";
+        rollno = 0;
+        cls  = "Unkonown";
+        division  = 'x';
+        dob  = "Unkonown";
+        bloodgroup  = "Unkonown";
+        contact  = "Unkonown";
+        address  = "Unkonown";
+        Telephone  = "Unkonown";
+        drivingl  = "Unkonown";
+        count ++;
+    }
+    
+    //parametarized constructor
+    student(const student &student){
+        name = name;
+        rollno = rollno;
+        cls = cls;
+        division = division;
+        dob = dob;
+        bloodgroup = bloodgroup;
+        contact = contact;
+        address = address;
+        Telephone = Telephone;
+        drivingl = drivingl;
+        count ++;
+    }
+    
+    //copy constructor
+    student(student &obj){
+        name = obj.name;
+        rollno = obj.rollno;
+        cls = obj.cls;
+        division = obj.division;
+        dob = obj.dob;
+        bloodgroup = obj.bloodgroup;
+        contact = obj.contact;
+        address = obj.address;
+        Telephone = obj.Telephone;
+        drivingl = obj.drivingl;
+        count ++;
+    }
+    
+    ~student(){
+        count--;
+    }
+    static int getstudentcount(){
+        return count;
+    }
+    friend class admin; // using friend funtion 
+    
+    void input(){
+        cin.ignore();
+        cout<<"Enter the name of student: ";
+        getline(cin,name);
+        
+        cout<<"Enter the roll number of student: ";
+        cin>>rollno;
+        cout<<"Enter the class of student: ";
+        cin>>cls;
+        cout<<"Enter the division of student: ";
+        cin>>division;
+        cout<<"Enter the date of birth of student: ";
+        cin>>dob;
+        cout<<"Enter the address of student: ";
+        cin>>address;
+        cout<<"Enter the Telephone numebr of student: ";
+        cin>>Telephone;
+        cout<<"Enter the driving liances of student: ";
+        cin>>drivingl;
+        count ++;
+    }
+    
+    // inline funtion
+    inline void display()const{
+        cout<<"\nThe name of student "<<name
+            <<"\nThe roll number of student "<<rollno
+            <<"\nThe class of student "<<cls
+            <<"\nThe division of student "<<division
+            <<"\nThe date of birth of student "<<dob
+            <<"\nThe address of student "<<address
+            <<"\nThe telephone number of student is "<<Telephone
+            <<"\nThe driving liances of student is "<<drivingl<<endl;
+    }
+};
+
+int student::count = 0; // initializing static member
+
+class admin{
+    public:
+    void show(const student &students){
+    cout<<"The details of students are: ";
+    students.display();
+    }
+};
+
+int main(){
+    student students;
+    int n;
+    int i;
+    
+    while(true){
+        cout<<"Enter the number of students: ";
+        cin>>n;
+        for(i=0;i<n;i++){
+            cout<<"Enter the details of student"<<(i+1)<<endl;
+            students.input();
+        }
+        
+        cout<<"Display student count: "<<endl;
+        for(i=0;i<n;i++){
+            students.display();
+        }
+        
+        cout<<"Total count is: "<<students.getstudentcount()<<endl;
+        
+        admin admin;
+        cout<<"showing admin details: ";
+        admin.show(students);
+        
+        
+    }
+    return 0;    
+}
